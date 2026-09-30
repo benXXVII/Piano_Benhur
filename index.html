@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glass Piano · Premium Keyboard Instrument</title>
+
+  <!-- Google Fonts: elegant serif + clean sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated gradient background layers -->
+  <div class="bg-gradient"></div>
+  <div class="bg-grain"></div>
+
+  <!-- Floating music note layer (filled by JS) -->
+  <div class="emoji-layer" id="emojiLayer"></div>
+
+  <main class="app">
+
+    <!-- ── Header ─────────────────────────────── -->
+    <header class="hero">
+      <h1>Glass&nbsp;Piano</h1>
+      <p class="subtitle">Press <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd> <kbd>G</kbd> <kbd>H</kbd> <kbd>J</kbd> <kbd>K</kbd> &nbsp;·&nbsp; Sharps on <kbd>W</kbd> <kbd>E</kbd> <kbd>T</kbd> <kbd>Y</kbd> <kbd>U</kbd></p>
+    </header>
+
+    <!-- ── Now Playing ────────────────────────── -->
+    <div class="now-playing" id="nowPlaying">
+      <span class="label">Now&nbsp;playing</span>
+      <span class="value" id="nowValue">—</span>
+    </div>
+
+    <!-- ── Waveform ───────────────────────────── -->
+    <div class="waveform" id="waveform">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- ── Piano ──────────────────────────────── -->
+    <section class="piano-wrap">
+      <div class="piano" id="piano">
+        <!-- White keys (8) -->
+        <div class="key white" data-key="a" data-note="C" data-solfege="Do">
+          <span class="note-name">C</span>
+          <span class="solfege">Do</span>
+          <kbd class="key-hint">A</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="s" data-note="D" data-solfege="Re">
+          <span class="note-name">D</span>
+          <span class="solfege">Re</span>
+          <kbd class="key-hint">S</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="d" data-note="E" data-solfege="Mi">
+          <span class="note-name">E</span>
+          <span class="solfege">Mi</span>
+          <kbd class="key-hint">D</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="f" data-note="F" data-solfege="Fa">
+          <span class="note-name">F</span>
+          <span class="solfege">Fa</span>
+          <kbd class="key-hint">F</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="g" data-note="G" data-solfege="Sol">
+          <span class="note-name">G</span>
+          <span class="solfege">Sol</span>
+          <kbd class="key-hint">G</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="h" data-note="A" data-solfege="La">
+          <span class="note-name">A</span>
+          <span class="solfege">La</span>
+          <kbd class="key-hint">H</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="j" data-note="B" data-solfege="Ti">
+          <span class="note-name">B</span>
+          <span class="solfege">Ti</span>
+          <kbd class="key-hint">J</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key white" data-key="k" data-note="C5" data-solfege="Do">
+          <span class="note-name">C</span>
+          <span class="solfege">Do</span>
+          <kbd class="key-hint">K</kbd>
+          <span class="ripple"></span>
+        </div>
+
+        <!-- Black keys (5) — positioned absolutely -->
+        <div class="key black" data-key="w" data-note="C#" data-solfege="Do#">
+          <span class="note-name">C#</span>
+          <kbd class="key-hint">W</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key black" data-key="e" data-note="D#" data-solfege="Re#">
+          <span class="note-name">D#</span>
+          <kbd class="key-hint">E</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key black" data-key="t" data-note="F#" data-solfege="Fa#">
+          <span class="note-name">F#</span>
+          <kbd class="key-hint">T</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key black" data-key="y" data-note="G#" data-solfege="Sol#">
+          <span class="note-name">G#</span>
+          <kbd class="key-hint">Y</kbd>
+          <span class="ripple"></span>
+        </div>
+        <div class="key black" data-key="u" data-note="A#" data-solfege="La#">
+          <span class="note-name">A#</span>
+          <kbd class="key-hint">U</kbd>
+          <span class="ripple"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Controls ───────────────────────────── -->
+    <section class="controls">
+      <label class="control">
+        <span>Wave</span>
+        <select id="waveSelect">
+          <option value="sine" selected>Piano (soft)</option>
+          <option value="triangle">Triangle (warm)</option>
+          <option value="square">Square (retro)</option>
+          <option value="sawtooth">Sawtooth (bright)</option>
+        </select>
+      </label>
+
+      <label class="control">
+        <span>Volume</span>
+        <input type="range" id="volSlider" min="0" max="1" step="0.01" value="0.6" />
+      </label>
+
+      <label class="control">
+        <span>Song</span>
+        <select id="songSelect">
+          <option value="">— freestyle —</option>
+          <option value="lamb">Mary Had a Little Lamb</option>
+          <option value="twinkle">Twinkle Twinkle Little Star</option>
+          <option value="ode">Ode to Joy</option>
+          <option value="frere">Frère Jacques</option>
+          <option value="jingle">Jingle Bells</option>
+          <option value="london">London Bridge</option>
+          <option value="rowboat">Row, Row, Row Your Boat</option>
+        </select>
+      </label>
+    </section>
+
+    <!-- Song sheet (revealed when a song is chosen) -->
+    <div class="song-sheet" id="songSheet" hidden></div>
+
+    <footer class="foot">
+      <p>Built with HTML · CSS · JavaScript &nbsp;|&nbsp; Web Audio API</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
